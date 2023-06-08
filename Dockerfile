@@ -30,13 +30,13 @@ RUN cd /home/model-server/tmp \
        --extra-files weights/GroundingDINO_SwinT_OGC.py,bert-base-uncased/*
 
 
-FROM alpine/git:2.36.3 as groundingdino-downloader
-RUN git clone https://github.com/IDEA-Research/GroundingDINO.git /git/groudingdino
+FROM bitnami/git:2.41.0-debian-11-r2 as GIT
+RUN git clone https://github.com/IDEA-Research/GroundingDINO.git /tmp/GroundingDINO
 
 
 FROM pytorch/torchserve:0.8.0-gpu
 
-
 COPY --from=MAR_BUILDER /home/model-server/tmp/groundingdino.mar /home/model-server/model-store/groundingdino.mar
 COPY config.properties /home/model-server/config.properties
-COPY --from=groundingdino-downloader /git/groudingdino /usr/src/GroundingDINO
+COPY --from=GIT /tmp/GroundingDINO /usr/src/GroundingDINO
+
