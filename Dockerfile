@@ -31,7 +31,7 @@ RUN cd /home/model-server/tmp \
 
 
 FROM alpine/git:2.36.3 as groundingdino-downloader
-RUN git clone https://github.com/IDEA-Research/GroundingDINO.git
+RUN git clone https://github.com/IDEA-Research/GroundingDINO.git /git/groudingdino
 
 
 FROM pytorch/torchserve:0.8.0-gpu
@@ -39,4 +39,4 @@ FROM pytorch/torchserve:0.8.0-gpu
 
 COPY --from=MAR_BUILDER /home/model-server/tmp/groundingdino.mar /home/model-server/model-store/groundingdino.mar
 COPY config.properties /home/model-server/config.properties
-COPY --from=groundingdino-downloader /git/GroundingDINO /usr/src/GroundingDINO
+COPY --from=groundingdino-downloader /git/groudingdino /usr/src/GroundingDINO
