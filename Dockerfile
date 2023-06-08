@@ -35,5 +35,5 @@ RUN cd /home/model-server/tmp \
 
 FROM pytorch/torchserve:0.8.0-gpu
 
-COPY --from=MAR_BUILDER /home/model-server/groundingdino.mar /home/model-server/model-store/groundingdino.mar
+COPY --from=MAR_BUILDER /home/model-server/tmp/groundingdino.mar /home/model-server/model-store/groundingdino.mar
 COPY --from=groundingdino-downloader /git/GroundingDINO /usr/src/GroundingDINO
