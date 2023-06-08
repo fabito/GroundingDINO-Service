@@ -32,7 +32,7 @@ RUN cd /home/model-server/tmp \
 
 
 FROM bitnami/git:2.41.0-debian-11-r2 as GIT
-RUN git clone --branch remove-unused-import https://github.com/fabito/GroundingDINO.git /tmp/GroundingDINO
+RUN git clone https://github.com/IDEA-Research/GroundingDINO.git /tmp/GroundingDINO
 
 FROM pytorch/torchserve:0.8.0-gpu
 
