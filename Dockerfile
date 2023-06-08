@@ -44,6 +44,7 @@ RUN /home/venv/bin/pip install --no-cache-dir \
      transformers \
      addict \
      yapf \
-     opencv-python-headless
+     opencv-python-headless \
+     timm
 
 ENV PYTHONPATH="/usr/src/GroundingDINO:$PYTHONPATH"

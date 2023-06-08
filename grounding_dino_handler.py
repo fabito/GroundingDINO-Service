@@ -1,15 +1,11 @@
 import logging
 import os,sys
-import uuid
 import base64
 from PIL import Image
 import io
-import numpy as np
 import torch
-from ts.torch_handler.base_handler import BaseHandler
 import groundingdino.datasets.transforms as T
 from groundingdino.models import build_model
-from groundingdino.util import box_ops
 from groundingdino.util.slconfig import SLConfig
 from groundingdino.util.utils import clean_state_dict, get_phrases_from_posmap
 from groundingdino.util.inference import preprocess_caption
