@@ -45,6 +45,7 @@ RUN /home/venv/bin/pip install --no-cache-dir \
      addict \
      yapf \
      opencv-python-headless \
-     timm
+     timm \
+     supervision
 
 ENV PYTHONPATH="/usr/src/GroundingDINO:$PYTHONPATH"
