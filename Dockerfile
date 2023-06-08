@@ -31,7 +31,7 @@ RUN cd /home/model-server/tmp \
 
 
 FROM bitnami/git:2.41.0-debian-11-r2 as GIT
-RUN git clone https://github.com/IDEA-Research/GroundingDINO.git /tmp/GroundingDINO
+RUN git clone --branch remove-unused-import https://github.com/fabito/GroundingDINO.git /tmp/GroundingDINO
 
 
 FROM pytorch/torchserve:0.8.0-gpu
@@ -40,3 +40,10 @@ COPY --from=MAR_BUILDER /home/model-server/tmp/groundingdino.mar /home/model-ser
 COPY config.properties /home/model-server/config.properties
 COPY --from=GIT /tmp/GroundingDINO /usr/src/GroundingDINO
 
+RUN /home/venv/bin/pip install --no-cache-dir \
+     transformers \
+     addict \
+     yapf \
+     opencv-python-headless
+
+ENV PYTHONPATH="/usr/src/GroundingDINO:$PYTHONPATH"
