@@ -22,6 +22,7 @@ FROM pytorch/torchserve:0.8.0-cpu as MAR_BUILDER
 
 COPY --from=DOWNLOADS /groundingdino /home/model-server/tmp/weights
 COPY --from=DOWNLOADS /bert-base-uncased /home/model-server/tmp/bert-base-uncased
+COPY grounding_dino_handler.py /home/model-server/tmp/
 
 RUN cd /home/model-server/tmp \
     && torch-model-archiver \
