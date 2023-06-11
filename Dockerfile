@@ -9,17 +9,21 @@ RUN mkdir -p /groundingdino \
 FROM edzhu/git-lfs:latest as GIT-LFS
 ENV BERT_BASE_UNCASED_COMMIT_SHA=26c976dcb042f61e05f27fe2d9836a2c5237bfb3
 RUN git lfs install \
-    && git clone https://huggingface.co/bert-base-uncased
+    && git clone https://huggingface.co/bert-base-uncased /bert-base-uncased-tmp \
+    && mkdir -p /bert-base-uncased \
+    && cp /bert-base-uncased-tmp/config.json \
+          /bert-base-uncased-tmp/pytorch_model.bin \
+          /bert-base-uncased-tmp/tokenizer_config.json \
+          /bert-base-uncased-tmp/tokenizer.json \
+          /bert-base-uncased-tmp/vocab.txt \
+          /bert-base-uncased/ \
+    && rm -rf /bert-base-uncased-tmp
 
 
-FROM pytorch/torchserve:0.8.0-cpu as MAR_BUILDER
+FROM pytorch/torchserve:0.8.0-gpu as MAR_BUILDER
 
 COPY --from=DOWNLOADS /groundingdino /home/model-server/tmp/weights
-COPY --from=GIT-LFS /bert-base-uncased/config.json /home/model-server/tmp/bert-base-uncased/config.json
-COPY --from=GIT-LFS /bert-base-uncased/pytorch_model.bin /home/model-server/tmp/bert-base-uncased/pytorch_model.bin
-COPY --from=GIT-LFS /bert-base-uncased/tokenizer_config.json /home/model-server/tmp/bert-base-uncased/tokenizer_config.json
-COPY --from=GIT-LFS /bert-base-uncased/tokenizer.json /home/model-server/tmp/bert-base-uncased/tokenizer.json
-COPY --from=GIT-LFS /bert-base-uncased/vocab.txt /home/model-server/tmp/bert-base-uncased/vocab.txt
+COPY --from=GIT-LFS /bert-base-uncased /home/model-server/tmp/bert-base-uncased
 COPY grounding_dino_handler.py /home/model-server/tmp/
 
 RUN cd /home/model-server/tmp \
